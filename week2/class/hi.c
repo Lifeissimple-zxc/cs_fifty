@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <cs50.h>
+#include <cs50.c>
 
 int main(void)
 {
@@ -12,5 +12,8 @@ int main(void)
 
     //The following lines utilize string type
     string s = "HI!";
-    printf("%i %i %i\n", s[0], s[1], s[2]);
+    string t = "BYE!";
+
+    printf("%s\n", s);
+    printf("%s\n", t);
 }
