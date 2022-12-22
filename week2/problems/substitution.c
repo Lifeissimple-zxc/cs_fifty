@@ -8,7 +8,6 @@ int get_key_len(string key);
 int is_alpha_key(string key, int key_len);
 string key_to_lower(string key, int key_len);
 int has_no_duplicates(string key, int key_len);
-void get_mapping(string key, int mapper[]);
 
 int main(int argc, string argv[])
 {
@@ -42,10 +41,29 @@ int main(int argc, string argv[])
         printf("Key has duplicate characters, cannot procced :(\n");
         return 1;
     }
-    // printf("All good with the key!\n");
-    // return 0;
-    int mapper[26];
-    get_mapping(key_lower, mapper);
+    // Get user input
+    string user_str = get_string("plaintext: ");
+    int user_input_len = get_key_len(user_str);
+    string user_str_lower = key_to_lower(user_str, user_input_len);
+
+    printf("\n");
+    for (int i = 0; i < user_input_len; i++)
+    {
+        // Get current character
+        char curr_char = user_str_lower[i];
+        // Convert character to a position within default string abcdefghijklmnopqrstuvwxyz
+        int char_pos = curr_char - 97;
+        // Get mapped character
+        char mapped_char = key_lower[char_pos];
+
+
+        printf("%c - %i - %c", curr_char, char_converted, mapped_char);
+        printf("\n");
+    }
+
+
+
+
     return 0;
 
 }
@@ -115,26 +133,28 @@ int has_no_duplicates(string key, int key_len)
 }
 // Mapping functions are below
 // C does not encourage returning arrays so we do not do it and just modify a pre-created one
-void get_mapping(string key, int mapper[])
-{
-    // Here we expect key to be lower so we default string is lower too
-    string default_string = "abcdefghijklmnopqrstuvwxyz";
-    //Map differences with Eng Alphabet
-    for (int i = 0; i < 26; i++)
-    {
-        // Store within the provided mapper array
-        mapper[i] = key[i] - default_string[i];
-    }
-}
+// void get_mapping(string key, int mapper[])
+// {
+//     // Here we expect key to be lower so we default string is lower too
+//     string default_string = "abcdefghijklmnopqrstuvwxyz";
+//     //Map differences with Eng Alphabet
+//     for (int i = 0; i < 26; i++)
+//     {
+//         // Store within the provided mapper array
+//         mapper[i] = key[i] - default_string[i];
+//     }
+// }
 
-string perform_cipher(string plain_text, int mapper[])
-{
-    int i = 0;
-    do
-    {
-        char curr_char = plain_text[i];
-        
-        i++;
-    } while (plain_text[i] != '\0');
-}
+// string perform_cipher(string plain_text, int mapper[])
+// {
+//     int i = 0;
+//     do
+//     {
+//         char curr_char = plain_text[i];
+//         // How do we actually use mapper?
+//         // check for alpha chars, we only convert them
+//         // preserve case
+//         i++;
+//     } while (plain_text[i] != '\0');
+// }
 
