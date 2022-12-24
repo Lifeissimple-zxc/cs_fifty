@@ -6,25 +6,25 @@
 
 int get_key_len(string key);
 int is_alpha_key(string key, int key_len);
-string key_to_lower(string key, int key_len);
+void string_to_lower(string str, int str_len, char lower_container[]);
 int has_no_duplicates(string key, int key_len);
 
 int main(int argc, string argv[])
 {
     // Check user arguments
-    if (argc != 2){
+    if (argc != 2)
+    {
         printf("Usage: ./substitution key\n");
         return 1;
     }
     // At this point we know that we have received the key so saving to a variable is ok
     string key_raw = argv[1];
-    // char key_arrayed[] = "ke";
     // We also need key array len to perform checks
     int key_len = get_key_len(key_raw);
     // Check key len
     if (key_len != 26)
     {
-        printf("Got wrong key len: %i! Expected 26.\n", key_len);
+        printf("Key must contain 26 characters.\n");
         return 1;
     }
     // Check that we only have alpha chars
@@ -34,7 +34,10 @@ int main(int argc, string argv[])
         return 1;
     }
     // Convert key to lower
-    string key_lower = key_to_lower(key_raw, key_len);
+    // First we create a container for lowered key
+    char key_lower[key_len];
+    string_to_lower(key_raw, key_len, key_lower);
+
     // Check for duplicates
     if (has_no_duplicates(key_lower, key_len) == 0)
     {
@@ -43,31 +46,50 @@ int main(int argc, string argv[])
     }
     // Get user input
     string user_str = get_string("plaintext: ");
-    int user_input_len = get_key_len(user_str);
-    string user_str_lower = key_to_lower(user_str, user_input_len);
 
-    printf("\n");
+    // Transform input to all lower by creating a lowered copy
+    int user_input_len = get_key_len(user_str);
+    char user_str_lower[user_input_len];
+    string_to_lower(user_str, user_input_len, user_str_lower);
+
+    // Creating a variable to store our ciphered text
+    char cipher_text[user_input_len];
+
     for (int i = 0; i < user_input_len; i++)
     {
-        // Get current character
-        char curr_char = user_str_lower[i];
-        // Convert character to a position within default string abcdefghijklmnopqrstuvwxyz
-        int char_pos = curr_char - 97;
-        // Get mapped character
-        char mapped_char = key_lower[char_pos];
-
-
-        printf("%c - %i - %c", curr_char, char_converted, mapped_char);
-        printf("\n");
+        // Get current character, a separate variable for lower key to preserve case
+        char curr_char = user_str[i];
+        // We don't change non-alpha characters
+        cipher_text[i] = curr_char;
+        // Handling of alpha chars
+        if (isalpha(curr_char))
+        {
+            char curr_char_lower = user_str_lower[i];
+            // Convert character to a position within default string abcdefghijklmnopqrstuvwxyz
+            int char_pos = curr_char_lower - 97;
+            // Get mapped character by indexing the key with the position of the character
+            char mapped_char = key_lower[char_pos];
+            // Check of user input case, we only check for upper case because we always get lower chars from key_lower
+            if (isupper(curr_char))
+            {
+                // Rewrite our mapped char to upper
+                mapped_char = toupper(mapped_char);
+            }
+            // Store to string
+            cipher_text[i] = mapped_char;
+        }
     }
 
-
-
+    // Final output
+    printf("ciphertext: ");
+    for (int i = 0; i < user_input_len; i++)
+    {
+        printf("%c", cipher_text[i]);
+    }
+    printf("\n");
 
     return 0;
-
 }
-
 
 // Helper functions start here
 int get_key_len(string key)
@@ -80,22 +102,25 @@ int get_key_len(string key)
     do
     {
         len++;
-    } while(key[len] != '\0');
+    }
+    while (key[len] != '\0');
+
     return len;
 }
 // Not a validation per se, but needed
-string key_to_lower(string key, int key_len)
+void string_to_lower(string str, int str_len, char lower_container[])
 {
-    for (int i = 0; i < key_len; i++)
+    // Expects an array-container for lower string to be saved within
+    for (int i = 0; i < str_len; i++)
     {
-        char curr_char = key[i];
-        // Check if lower
-        if (!islower(curr_char))
+        char curr_char = str[i];
+        lower_container[i] = curr_char;
+        // Check if lower & override
+        if (isupper(curr_char))
         {
-            key[i] = tolower(curr_char);
+            lower_container[i] = tolower(curr_char);
         }
     }
-    return key;
 }
 // Validation functions are below
 int is_alpha_key(string key, int key_len)
@@ -131,30 +156,3 @@ int has_no_duplicates(string key, int key_len)
     // In case we checked all elements and located 0 duplicates, we return 1
     return 1;
 }
-// Mapping functions are below
-// C does not encourage returning arrays so we do not do it and just modify a pre-created one
-// void get_mapping(string key, int mapper[])
-// {
-//     // Here we expect key to be lower so we default string is lower too
-//     string default_string = "abcdefghijklmnopqrstuvwxyz";
-//     //Map differences with Eng Alphabet
-//     for (int i = 0; i < 26; i++)
-//     {
-//         // Store within the provided mapper array
-//         mapper[i] = key[i] - default_string[i];
-//     }
-// }
-
-// string perform_cipher(string plain_text, int mapper[])
-// {
-//     int i = 0;
-//     do
-//     {
-//         char curr_char = plain_text[i];
-//         // How do we actually use mapper?
-//         // check for alpha chars, we only convert them
-//         // preserve case
-//         i++;
-//     } while (plain_text[i] != '\0');
-// }
-
