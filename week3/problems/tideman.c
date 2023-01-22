@@ -34,6 +34,7 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+bool check_cycle(int winner, int loser);
 
 int main(int argc, string argv[])
 {
@@ -101,14 +102,12 @@ int main(int argc, string argv[])
 // Update ranks given a new vote
 bool vote(int rank, string name, int ranks[])
 {
-    // // Get count of candidates
-    // int candidate_count = sizeof(candidates) / sizeof(candidates[0]);
     // Check that name is valid using our global variable
-    for (int i = 0; i < MAX; i++)
+    for (int i = 0; i < candidate_count; i++)
     {
         if (strcmp(name, candidates[i]) == 0)
         {
-            // We located the candidate so we edit ranks array
+            // The person was found so we make a record about our rank input
             ranks[rank] = i;
             return true;
         }
@@ -117,33 +116,25 @@ bool vote(int rank, string name, int ranks[])
 }
 
 // Update preferences given one voter's ranks
-void record_preferences(int ranks[])
+void record_preferences(int ranks[]) // revisit
 {
-    // Get ranks count
-    // int ranks_count = sizeof(ranks) / sizeof(ranks[0]);
     // Nested Loop over ranks and edit preferences[i][j]
-    // For every candidate
-    for (int i = 0; i < MAX; i++)
+    // For every candidate we will have 1 rank so we can use candidate_count for iterations
+    // We iterate till pre-last candidate not to go over the limit of the candidates
+    for (int i = 0; i < candidate_count - 1; i++)
     {
-        // Stop if we reached last element
-        if (i == MAX - 1)
-        {
-            return;
-        }
         // See who lost and update preferences array
-        for (int j = i + 1; j < MAX; j++)
+        for (int j = i + 1; j < candidate_count; j++)
         {
-            // Check current value
-            int current_prefence = preferences[i][j];
-            // Increment if it is 1 or higher
-            if (current_prefence >= 1)
+            // If there is some value - increment
+            if (preferences[ranks[i]][ranks[j]])
             {
-                preferences[i][j]++;
+                preferences[ranks[i]][ranks[j]]++;
             }
-            // Set to 1 if not
+            // Otherwise - set to one
             else
             {
-                preferences[i][j] = 1;
+                preferences[ranks[i]][ranks[j]] = 1;
             }
         }
     }
@@ -156,14 +147,10 @@ void add_pairs(void)
     // Set pair count to zero as default value
     pair_count = 0;
     // Add pairs of candidates to pairs array of candidate 1 > candidate 2
-
-    // Get how many rows we have in preferences and how many items are in one row
-    int preference_rows = sizeof(preferences) / sizeof(preferences[0]);
-    int row_items = sizeof(preferences[0]) / sizeof(preferences[0][0]);
     // Iterate over preferences array (it's nested)
-    for (int i = 0; i < preference_rows; i++)
+    for (int i = 0; i < candidate_count; i++)
     {
-        for (int j = 0; j < row_items; j++)
+        for (int j = 0; j < candidate_count; j++)
         {
             if (preferences[i][j] > preferences[j][i])
             {
@@ -189,7 +176,7 @@ void sort_pairs(void)
     {
         for (int j = i - 1; j > -1; j--)
         {
-            if (preferences[pairs[i].winner][pairs[i].loser] < preferences[pairs[j].winner][pairs[j].loser])
+            if (preferences[pairs[j].winner][pairs[j].loser] < preferences[pairs[i].winner][pairs[i].loser])
             {
                 pair temp = pairs[i]; // Create a helper variable to perform swap
                 // Swap items of the array
@@ -204,22 +191,17 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    // TODO
-    // Populate locked array with true / false flags
+    // Iterate over pairs
     for (int i = 0; i < pair_count; i++)
     {
-        int true_count = 0; // might be bullshit
-        for (int j = 0; j < MAX; j++)
+        // Recursion to check if adding a lock creates a cycle
+        // We use winner and user several time so storing to a variable
+        int winner = pairs[i].winner;
+        int loser = pairs[i].loser;
+        // Check for cycle
+        if (!check_cycle(winner, loser))
         {
-            // Put false as we don't expect to have self-locked vervices
-            if (i == j)
-            {
-                locked[i][j] = false;
-            }
-            // Lock vertices
-            locked[i][j] = true;
-
-
+            locked[winner][loser] = true;
         }
     }
     return;
@@ -228,6 +210,62 @@ void lock_pairs(void)
 // Print the winner of the election
 void print_winner(void)
 {
-    // TODO
+    // We need to find a row that has no true values in their row
+    // Iterate over locked rows
+    for (int col = 0; col < candidate_count; col++)
+    {
+        // Set true counter per row
+        int true_count = 0;
+        // Iterate over locked cols
+        for (int row = 0; row < candidate_count; row++)
+        {
+            if (locked[row][col])
+            {
+                true_count++;
+            }
+        }
+        // Check if our candidate is THE ONE (source)
+        if (true_count == 0)
+        {
+            // Print & return if yes!
+            string winner = candidates[col];
+            int i = 0;
+            do
+            {
+                printf("%c", winner[i]);
+                i++;
+            }
+            while (winner[i] != '\0');
+            // Closing newline print
+            printf("\n");
+        }
+
+    }
     return;
+}
+// Makar's helpers
+bool check_cycle(int winner, int loser)
+{
+    // Base case: check if our winner <> loser have a reverted relationship
+    if (locked[loser][winner])
+    {
+        return true;
+    }
+    // Recursion
+    // Check if loser is a winner against any candidate?
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (locked[loser][i])
+        {
+            // We found a case where loser won against smbd
+            // So we need to check that new winner against the OG winner for a cycle
+            if (check_cycle(winner, i))
+            {
+                return true;
+            }
+        }
+    }
+    // Return false as our base case
+    return false;
+
 }
