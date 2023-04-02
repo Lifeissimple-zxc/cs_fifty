@@ -2,3 +2,5 @@
 .vs/
 .vscode/
 libcs50/
+
+*.wav
