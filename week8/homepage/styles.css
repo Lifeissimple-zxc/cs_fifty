@@ -1,0 +1,42 @@
+* {
+    font-family: "Roboto", sans-serif;
+}
+
+.extra-info {
+    font-size: 10px;
+}
+
+footer {
+    background-color: #F5F5F5;
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#website-how-to-list {
+    list-style-type: disc;
+    margin-bottom: 0;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999; /* Make sure the navbar is on top of other content */
+}
+
+#main-content {
+    padding-top: 60px;
+}
+
+#submit-contact-inputs {
+    background-color: #F5F5F5;
+}
+
+.top-margin-10 {
+    margin-top: 10px;
+}
+
+.hidden {
+    visibility: hidden;
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!-- Make page ok on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Indicate our charset -->
+    <meta charset="UTF-8">
+    <title>Contact Page</title>
+    <!-- BS Stuff -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <!-- My stuff -->
+    <link rel="stylesheet" href="styles.css">
+    <script>src="scripts.js"</script>   
+</head>
+<body>
+    <!-- Start with a navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">Content I Like</a>
+            <button class="navbar-toggler" data-bs-toggle="collapse"
+            data-bs-target="#nav" aria-controls="nav" aria-label="Expand navigation">
+                <div class="navbar-toggler-icon"></div>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li> <a href="index.html" class="nav-link">Main Page</a> </li>
+                    <li> <a href="books.html" class="nav-link">Books</a> </li>
+                    <li> <a href="videos.html" class="nav-link">Video Content</a> </li>
+                    <li> <a href="games.html" class="nav-link">Video Games</a> </li>
+                    <li> <a href="contact.html" class="nav-link active">Contact</a> </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Describe what the site is about -->
+    <br>
+    <div id="main-content">
+        <div class="container">
+            This page provides forms where users can share their contact data
+            if they feel that my opinion on the content mentioned on the site
+            resonates with theirs.
+            The options are <b>email</b> and <b>phone</b>. Because of the project being an exercise,
+            no actual data is sent anywhere.
+        </div>
+        <br>
+        <div class="container">
+            <form>
+                <span>
+                    Enter your contact data to the forms
+                    and press <b>submit</b>.
+                </span>
+                <br>
+                <div class="input-group">
+                    <div class="form-floating">
+                        <input type="email" id="email" class="form-control"
+                        placeholder="Place email here" style="height: 70px;">
+                        <label for="email" class="form-label">Email</label>
+                        
+                        <div class="invalid-feedback">Invalid email</div>
+                        <div class="valid-feedback">Valid email</div>
+                    </div>
+                    <div class="form-floating">
+                        <input type="tel" id="phone" class="form-control"
+                        placeholder="Place phone here" style="height: 70px;">
+                        <label for="phone" class="form-label">Phone</label>
+
+                        <div class="invalid-feedback">Invalid phone</div>
+                        <div class="valid-feedback">Valid phone</div>
+                    </div>
+                  </div>
+                <button class="btn border top-margin-10" id="submit-contact-inputs">
+                    Submit
+                </button>
+            </form>
+        </div>       
+    </div>
+</body>
+<footer class="top-margin-10">
+    <div class="container">
+        Completed as part of <a href="https://cs50.harvard.edu/x/2023/">CS50X</a>.
+        Author:
+        <!-- Contact Data -->
+        <a href="mailto:mararkarp@gmail.com">Makar Plakhotniuk</a>
+        <a href="https://github.com/Lifeissimple-zxc">Github</a>
+        <a href="mailto:hege@example.com">LinkedIn</a>.
+    </div>
+</footer>
+</html>
