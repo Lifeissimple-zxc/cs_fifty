@@ -13,8 +13,11 @@ footer {
     font-weight: bold;
 }
 
-#website-how-to-list {
+.bulleted-list-custom {
     list-style-type: disc;
+}
+
+#website-how-to-list {
     margin-bottom: 0;
 }
 
