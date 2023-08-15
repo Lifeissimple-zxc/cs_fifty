@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="header">
+        <h1>Birthdays</h1>
+    </div>
+    <div class="container">
+        <div class="section">
+
+            <h2>Add a Birthday</h2>
+            <form action="/" method="post">
+                <input autocomplete="off" autofocus name="name" placeholder="Name" required type="text">
+                <div>
+                    Month
+                    <select name="month">
+                        <option disabled selected>Month</option>
+                        {% for month in months %}
+                            <option value="{{ month }}">{{ month }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>Day
+                    <select name="day">
+                        <option disabled selected>Day</option>
+                    </select>
+                </div>
+                <button type="submit">Submit Data</button>
+            </form>
+        </div>
+
+        <div class="section">
+
+            <h2>All Birthdays</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- TODO: Loop through the database entries to display them in this table -->
+                    {% for row in bdays %}
+                        <tr>
+                            <td>{{ row['name'] }}</td>
+                            <td>{{ row['month'] }}/{{ row['day'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <div class="container">
+        <h3>Account Transaction History</h3>
+        {% if history_data == 'NULL' %}
+            <div class="border border-gray border-2 rounded-3 col-md-4 mx-auto text-center">
+                Configure filters below to see your history!
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="container top-margin-10 col-md-6">
+        <form class="form" action="/history" method="post">
+            <div class="input-group">
+                <div class="input-group-text">Period Start</div>
+                <input type="datetime-local" name="period_start" required>
+
+                <div class="input-group-text">Period End</div>
+                <input type="datetime-local" name="period_end" required>
+
+                <div class="input-group-text">Stock</div>
+                <select class="form-select" name="symbol">
+                    <option selected value="*">All Stocks</option>
+                    {% for entry in stock_summary %}
+                    <option value="{{ entry['stock'] }}">
+                        {{ entry['stock'] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-primary top-margin-10" type="submit">
+                Show History
+            </button>
+        </form>
+    </div>
+    {% if history_data != 'NULL' %}
+    <p>
+    <div class="container top-margin-10 mx-auto" style="width: 45;">
+        <div class="table-responsive-lg">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ table_headers['transaction_ts'] }}</th>
+                        <th>{{ table_headers['stock'] }}</th>
+                        <th>{{ table_headers['shares'] }}</th>
+                        <th>{{ table_headers['total_price'] }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in history_data %}
+                    <tr>
+                        <td>{{ entry['transaction_ts'] }}</td>
+                        <td>{{ entry['stock'] }}</td>
+                        <td>{{ entry['shares'] }}</td>
+                        <td>
+                            {{ entry['total_price'] | usd }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+
+{% endblock %}

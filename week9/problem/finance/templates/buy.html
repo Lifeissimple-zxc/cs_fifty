@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <div container>
+        <h3>Buy Stock</h3>
+        <div>Enter the ticker for stock of interest in the form below</div>
+    </div>
+    <!-- Form starts here -->
+    <div container>
+        <form class="form-vertical" action="/buy" method="post">
+            <div class="form-group col-2">
+                <div class="form-floating top-margin-10">
+                    <input type="text" name="symbol" autocomplete="off"
+                    class="form-control" placeholder="Ticker" required
+                    style="text-transform: uppercase">
+                    <label for="symbol" class="form-label">Ticker</label>
+                </div>
+                <div class="form-floating top-margin-10">
+                    <input type="text" name="shares" autocomplete="off"
+                    class="form-control" placeholder="# of Shares" required
+                    required style="text-transform: uppercase">
+                    <label for="symbol" class="form-label"># of Shares</label>
+                    <div class="extra-info">
+                        *Fractional shares are not supported
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary top-margin-10" type="submit">
+                Buy Stock
+            </button>
+        </form>
+    </div>
+{% endblock %}

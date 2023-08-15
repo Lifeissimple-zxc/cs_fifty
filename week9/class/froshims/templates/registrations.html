@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <ul>
+        {% for name in registrations %}
+            <li>{{ name }} is registered for {{ registrations[name] }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

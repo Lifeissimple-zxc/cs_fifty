@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Account Overview
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <div class="container">
+        <h3>Account Overview</h3>
+    </div>
+    <div style="width: 30%; display: inline-block;" id="cash"
+    class="container top-margin-10 mx-auto data-account-text">
+        <!-- Account Cash and networth -->
+        <table class="table table-hover table-bordered">
+            <tbody>
+                <tr>
+                    <td>{{ account_summary['cash']['user_text'] }}</td>
+                    <td>{{ user_balance['cash'] | usd }}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width: 30%; display: inline-block;" id="net_worth"
+    class="container top-margin-10 mx-auto data-account-text">
+        <!-- Account Cash and networth -->
+        <table class="table table-hover table-bordered">
+            <tbody>
+                <tr>
+                    <td>{{ account_summary['net_worth']['user_text'] }}</td>
+                    <td>{{ user_balance['net_worth'] | usd }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h5 class="top-margin-10">Stocks</h5>
+    <div class="container top-margin-10 mx-auto" style="width: 45%;">
+        <!-- Stock Data Goes Below (if we have it) -->
+        <div class="table-responsive-lg">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ table_headers['stock'] }}</th>
+                        <th>{{ table_headers['shares'] }}</th>
+                        <th>{{ table_headers['current_price'] }}</th>
+                        <th>{{ table_headers['total_stock_value'] }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in stock_summary %}
+                    <tr>
+                        <td>{{ entry['stock'] }}</td>
+                        <td>{{ entry['shares'] }}</td>
+                        <td>
+                            {{ entry['current_price'] | usd }}
+                        </td>
+                        <td>
+                            {{ entry['total_stock_value'] | usd }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

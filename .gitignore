@@ -4,3 +4,11 @@
 libcs50/
 
 *.wav
+
+# ignoring venv
+env/
+
+# heavy files
+*.db
+*.sqlite
+__pycache__/

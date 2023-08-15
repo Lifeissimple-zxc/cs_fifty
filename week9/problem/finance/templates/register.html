@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <div container>
+        <h3>Registration Form</h3>
+        <div>
+            Enter username and password using the form below to register.
+            <div class="extra-info">
+                *on succesful registration you will be sent to login page.
+            </div>
+        </div>
+    </div>
+    <!-- Form starts here -->
+    <div container>
+        <form class="form-vertical" action="/register" method="post">
+            <div class="form-group col-4">
+                <div class="form-floating top-margin-10">
+                    <!-- username -->
+                    <input type="text" name="username" autocomplete="off"
+                    class="form-control" placeholder="Username" required>
+                    <label for="username" class="form-label">Username</label>
+                </div>
+                <div class="form-floating top-margin-10">
+                    <!-- password -->
+                    <input type="text" name="password" autocomplete="off"
+                    class="form-control" placeholder="Password" required>
+                    <label for="password" class="form-label">Password</label>
+                </div>
+                <div class="form-floating top-margin-10">
+                    <!-- confirmation -->
+                    <input type="text" name="confirmation" autocomplete="off"
+                    class="form-control" placeholder="Confirm Password" required>
+                    <label for="confirmation" class="form-label">Confirm Password</label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary top-margin-10" type="submit">
+                Submit registration
+            </button>
+        </form>
+
+    </div>
+{% endblock %}

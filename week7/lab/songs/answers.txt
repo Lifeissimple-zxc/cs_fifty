@@ -1,0 +1,2 @@
+1. I would characterize the aura as Blue becuase avg energy weighted by duration is 0.1.
+2. My way of calculating might not be representative because it does not depend on what the user actually listened to and how many times.

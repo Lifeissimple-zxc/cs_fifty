@@ -1,0 +1,63 @@
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .red
+{
+    color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+    color: #2e944b;
+}
+
+/* Stuff Makar added for his assignment */
+.extra-info {
+    font-size: 10px;
+}
+
+.top-margin-10 {
+    margin-top: 10px;
+}
+
+.form-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* Some CSS for formatting USD fields */
+.data-account-usd:before {
+    content: "$";
+}
+.data-account-usd {
+    text-align: center;
+}
+
+.data-account-text {
+    text-align: left;
+}
+
+.data-account-metrics-popover {
+    font-size: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+.left-aligned {
+    margin-left: 0;
+}
+

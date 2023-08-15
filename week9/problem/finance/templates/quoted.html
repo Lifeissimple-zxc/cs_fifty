@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quoted
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <div container class="top-margin-10 mx-auto" style="width: 25%;">
+        A share of {{ stock_data['name'] }} costs {{ stock_data['price'] | usd}}
+    </div>
+{% endblock %}

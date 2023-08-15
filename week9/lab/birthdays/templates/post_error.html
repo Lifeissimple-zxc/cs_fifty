@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="header">
+        <h1>Server failed to process birthday input data</h1>
+    </div>
+    <div class="container">
+        <div class="section">
+
+            <h4>Error details</h4>
+            <h5>{{ error }}, Value Provided: {{ value }}</h5>
+
+        </div>
+    </div>
+{% endblock %}

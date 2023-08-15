@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Account Settings
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <div class="container">
+        <h3>Hello, {{ username }}</h3>
+    </div>
+    <div class="container top-margin-10">
+        <div class="border border-gray border-2 rounded-3 col-md-4 mx-auto text-center">
+            Add funds to account
+        </div>
+        <form class="form-vertical col-md-6 mx-auto" action="/account" method="post">
+            <div class="input-group top-margin-10">
+                <input type="hidden" name="operation_type"
+                value="add_cash" required>
+
+                <div class="input-group-text">Amount</div>
+                <input type="number" name="add_cash_amount" required>
+
+                <div class="input-group-text">Payment Method</div>
+                <select class="form-select" name="payment_method">
+                    <option disabled selected>Choose Payment Method</option>
+                    {% for entry in payment_methods %}
+                        {% if entry['payment_method_id'] != 5 %}
+                        <option value="{{ entry['paymment_method_name'] }}">
+                            {{ entry['paymment_method_name'] }}
+                        </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+            </div>
+
+
+            <button class="btn btn-primary top-margin-10" type="submit">
+                Add Funds
+            </button>
+        </form>
+    </div>
+
+
+{% endblock %}
