@@ -75,3 +75,25 @@ center {
     margin-top: 10px;
 }
 
+.font-color-uber-gray {
+    color:  #4d4d4d;
+}
+
+.search-bar-advanced {
+    margin-bottom: 10px;
+    border: 1px solid #4d4d4d;
+    /* border-radius: 15px; */
+    width: 66.6%;
+    height: 25px;
+    padding: 5px;
+}
+
+.advanced-search-row {
+    margin-right: 10px;
+    width: 100%;
+}
+
+.advanced-search-prompt {
+    width: 16.6%;
+}
+
