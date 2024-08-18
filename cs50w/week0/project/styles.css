@@ -80,20 +80,29 @@ center {
 }
 
 .search-bar-advanced {
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     border: 1px solid #4d4d4d;
     /* border-radius: 15px; */
-    width: 66.6%;
+    width: 40%;
     height: 25px;
     padding: 5px;
 }
 
 .advanced-search-row {
-    margin-right: 10px;
-    width: 100%;
+    align-items: center;
+    display: flex;
+    margin-bottom: 10px;
+
 }
 
 .advanced-search-prompt {
-    width: 16.6%;
+    width: 13%;
+    font-size: 15px;
+}
+
+.advanced-search-explainer {
+    margin-left: 10px;
+    width: 30%;
+    font-size: 13px;
 }
 

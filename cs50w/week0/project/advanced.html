@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Search</title>
+    <title>Advanced Search</title>
     <link rel="stylesheet" href="styles.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
@@ -23,30 +23,43 @@
         </h2>
         <div>
             <h4 class="roboto-font font-color-uber-gray">Find pages with...</h4>
-            <form action="https://www.google.com/search" display="block">
+            <form action="https://www.google.com/search">
                 <div class="advanced-search-row">
-                    <div class="advanced-search-prompt">all these words:</div>
-                    
+                    <div class="advanced-search-prompt roboto-font">all these words:</div>
                     <div name="search-text" class="search-bar-advanced">
                         <input type="text" name="as_q" maxlength="2048" class="search-textarea roboto-font">
-                    </div>    
+                    </div>
+                    <div class="advanced-search-explainer roboto-font">
+                        Type the important words: <span style="font-style: italic;">tri-colour rat terrier</span>
+                    </div>
                 </div>
-
-                this exact word or phrase:
-                <div name="search-text" class="search-bar-advanced">
-                    <input type="text" name="as_epq" maxlength="2048" class="search-textarea roboto-font">
+                <div class="advanced-search-row">
+                    <div class="advanced-search-prompt roboto-font">this exact word or phrase:</div>
+                    <div name="search-text" class="search-bar-advanced">
+                        <input type="text" name="as_epq" maxlength="2048" class="search-textarea roboto-font">
+                    </div>
+                    <div class="advanced-search-explainer roboto-font">
+                        Put exact words in quotes: <span style="font-style: italic;">"rat terrier"</span>
+                    </div>
                 </div>
-
-                any of these words:
-                <div name="search-text" class="search-bar-advanced">
-                    <input type="text" name="as_oq" maxlength="2048" class="search-textarea roboto-font">
+                <div class="advanced-search-row">
+                    <div class="advanced-search-prompt roboto-font">any of these words:</div>
+                    <div name="search-text" class="search-bar-advanced">
+                        <input type="text" name="as_oq" maxlength="2048" class="search-textarea roboto-font">
+                    </div>
+                    <div class="advanced-search-explainer roboto-font">
+                        Type <span style="font-style: italic;">OR</span> between all the words you want: <span style="font-style: italic;">miniature OR standard</span>
+                    </div>
                 </div>
-
-                none of these words:
-                <div name="search-text" class="search-bar-advanced">
-                    <input type="text" name="as_eq" maxlength="2048" class="search-textarea roboto-font">
+                <div class="advanced-search-row">
+                    <div class="advanced-search-prompt roboto-font">none of these words:</div>
+                    <div name="search-text" class="search-bar-advanced">
+                        <input type="text" name="as_eq" maxlength="2048" class="search-textarea roboto-font">
+                    </div>
+                    <div class="advanced-search-explainer roboto-font">
+                        Put two full stops between the numbers and add a unit of measurement:<br>10..35 kg, £300..£500, 2010..2011
+                    </div>
                 </div>
-
                 <input type="submit" style="margin: 0px;" value="Advanced Search" class="search-button roboto-font">
             </form>
         </div>
