@@ -28,11 +28,9 @@ center {
 }
 
 .search-textarea {
-    width: 80%;
+    width: 99%;
     height: 100%;
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     border: none;
     resize: none;
     outline: none;
@@ -79,10 +77,8 @@ center {
     color:  #4d4d4d;
 }
 
-.search-bar-advanced {
-    /* margin-bottom: 10px; */
+.advanced-search-bar {
     border: 1px solid #4d4d4d;
-    /* border-radius: 15px; */
     width: 40%;
     height: 25px;
     padding: 5px;
@@ -104,5 +100,22 @@ center {
     margin-left: 10px;
     width: 30%;
     font-size: 13px;
+}
+
+.advanced-search-button {
+    margin-top: 5px;
+    margin-left: 30%;
+    font-size: 15px;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #2171ec;
+    text-align: center;
+    color: white;
+    border: 1px solid white;
+}
+
+.advanced-search-button:hover {
+    background-color: #5a90e1;
 }
 
