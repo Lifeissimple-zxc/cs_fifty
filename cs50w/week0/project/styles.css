@@ -28,7 +28,7 @@ center {
 }
 
 .search-textarea {
-    width: 99%;
+    width: 80%;
     height: 100%;
     box-sizing: border-box;
     border: none;
@@ -104,7 +104,8 @@ center {
 
 .advanced-search-button {
     margin-top: 5px;
-    margin-left: 30%;
+    width: 100%;
+    /* margin-left: 31.7%; */
     font-size: 15px;
     border: none;
     padding: 10px;
@@ -118,4 +119,20 @@ center {
 .advanced-search-button:hover {
     background-color: #5a90e1;
 }
+
+.measurement {
+    font-family: monospace, 'Courier New', Courier;
+    font-style: italic;
+}
+
+.advanced-search-textarea {
+    width: 99%;
+    height: 100%;
+    box-sizing: border-box;
+    border: none;
+    resize: none;
+    outline: none;
+    font-size: 17px;
+}
+
 

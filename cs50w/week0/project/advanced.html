@@ -22,54 +22,59 @@
             Advanced Search
         </h2>
         <div>
-            <h4 class="roboto-font font-color-uber-gray">Find pages with...</h4>
+            <div class="advanced-search-row">
+                <div class="advanced-search-prompt roboto-font">
+                    <h4 class="font-color-uber-gray">Find pages with...</h4>
+                </div>
+                <div class="advanced-search-bar" style="border: none;"></div>
+                <div class="advanced-search-explainer roboto-font">
+                    <h4 class="font-color-uber-gray">To do this in the search box.</h5>
+                </div>
+            </div>
             <form action="https://www.google.com/search">
                 <div class="advanced-search-row">
                     <div class="advanced-search-prompt roboto-font">all these words:</div>
                     <div class="advanced-search-bar">
-                        <input type="text" name="as_q" maxlength="2048" class="search-textarea roboto-font">
+                        <input type="text" name="as_q" maxlength="2048" class="advanced-search-textarea roboto-font">
                     </div>
                     <div class="advanced-search-explainer roboto-font">
-                        Type the important words: <span style="font-style: italic;">tri-colour rat terrier</span>
+                        Type the important words: <span class="measurement">tri-colour rat terrier</span>
                     </div>
                 </div>
                 <div class="advanced-search-row">
                     <div class="advanced-search-prompt roboto-font">this exact word or phrase:</div>
                     <div class="advanced-search-bar">
-                        <input type="text" name="as_epq" maxlength="2048" class="search-textarea roboto-font">
+                        <input type="text" name="as_epq" maxlength="2048" class="advanced-search-textarea roboto-font">
                     </div>
                     <div class="advanced-search-explainer roboto-font">
-                        Put exact words in quotes: <span style="font-style: italic;">"rat terrier"</span>
+                        Put exact words in quotes: <span class="measurement">"rat terrier"</span>
                     </div>
                 </div>
                 <div class="advanced-search-row">
                     <div class="advanced-search-prompt roboto-font">any of these words:</div>
                     <div class="advanced-search-bar">
-                        <input type="text" name="as_oq" maxlength="2048" class="search-textarea roboto-font">
+                        <input type="text" name="as_oq" maxlength="2048" class="advanced-search-textarea roboto-font">
                     </div>
                     <div class="advanced-search-explainer roboto-font">
-                        Type <span style="font-style: italic;">OR</span> between all the words you want: <span style="font-style: italic;">miniature OR standard</span>
+                        Type <span class="measurement">OR</span> between all the words you want: <span class="measurement">miniature OR standard</span>
                     </div>
                 </div>
                 <div class="advanced-search-row">
                     <div class="advanced-search-prompt roboto-font">none of these words:</div>
                     <div class="advanced-search-bar">
-                        <input type="text" name="as_eq" maxlength="2048" class="search-textarea roboto-font">
+                        <input type="text" name="as_eq" maxlength="2048" class="advanced-search-textarea roboto-font">
                     </div>
                     <div class="advanced-search-explainer roboto-font">
-                        Put two full stops between the numbers and add a unit of measurement:<br>10..35 kg, £300..£500, 2010..2011
+                        Put two full stops between the numbers and add a unit of measurement:<br>
+                        <span class="measurement">10..35 kg, £300..£500, 2010..2011</span>
                     </div>
                 </div>
                 <div class="advanced-search-row">
-                    <div class="advanced-search-prompt roboto-font">button row:</div>
-                    <div class="advanced-search-bar">
-                        <input type="text" name="as_eq" maxlength="2048" class="search-textarea roboto-font">
-                    </div>
-                    <div class="advanced-search-explainer roboto-font">
-                        Put two full stops between the numbers and add a unit of measurement:<br>10..35 kg, £300..£500, 2010..2011
+                    <div class="advanced-search-prompt roboto-font"></div>
+                    <div class="advanced-search-bar" style="border: none;">
+                        <input type="submit" value="Advanced Search" class="advanced-search-button roboto-font">
                     </div>
                 </div>
-                <input type="submit" value="Advanced Search" class="advanced-search-button roboto-font">
             </form>
         </div>
     </div>
