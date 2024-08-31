@@ -3,8 +3,13 @@
 {% block body %}
 <body>
     <h1>Add Task</h1>
-    <form>
-        <input type="text", name="task">
+    <form action="{% url 'tasks:add' %}" method="post">
+        {% csrf_token %}
+        <!-- html-defined form
+        <input type="text", name="task">-->
+
+        <!-- django class based form -->
+        {{ form }}
         <input type="submit">
     </form>
 </body>

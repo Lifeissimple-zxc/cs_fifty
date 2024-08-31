@@ -4,6 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks</title>
 </head>
+<header>
+    <!-- cross linking using django path names -->
+    <a href="{% url 'tasks:index' %}">Task List</a>
+    <a href="{% url 'tasks:add' %}">Add Task</a>
+</header>
 <body>
     {% block body %}
     {% endblock %}
