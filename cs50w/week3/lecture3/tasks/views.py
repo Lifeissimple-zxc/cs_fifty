@@ -11,3 +11,9 @@ def index(request: HttpRequest):
             "tasks": tasks
         }
     )
+
+def add(request: HttpRequest):
+    return render(
+        request=request,
+        template_name="tasks/add.html"
+    )
