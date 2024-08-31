@@ -2,12 +2,19 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-def index(req: HttpRequest):
-    return HttpResponse("Hello, world!")
+def index(request: HttpRequest):
+    return render(request=request, template_name="hello/index.html")
 
-def man(req: HttpRequest):
+def man(request: HttpRequest):
     return HttpResponse("Hello Man!")
 
-def greet(req: HttpRequest, name: str):
-    return HttpResponse(f"Hello, {name.capitalize()}!")
+def greet(request: HttpRequest, name: str):
+    return render(
+        request=request,
+        template_name="hello/greet.html",
+        context={
+            "name": name.capitalize()
+        }
+    )
+
 
