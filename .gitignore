@@ -16,3 +16,8 @@ __pycache__/
 # random stuff
 play_*
 *.jpg
+
+# large files
+*.sqlite3
+*.db
+*.db-*
