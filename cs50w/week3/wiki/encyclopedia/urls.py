@@ -3,5 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index")
+    
+    path(route="", view=views.index, name="index"),
+    path(route="wiki/<str:title>", view=views.title, name="title"),
 ]

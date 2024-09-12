@@ -1,8 +1,12 @@
 import re
+import logging
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+import markdown2
 
+
+logger = logging.getLogger('django.server')
 
 def list_entries():
     """
@@ -35,3 +39,10 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+    
+def markdown_to_html(title:str, markdown: str) -> markdown2.UnicodeWithAttrs:
+    try:
+        return markdown2.markdown(text=markdown)
+    except Exception as e:
+        logger.error("error converting markdown for title %s: %s", title, e)
+
