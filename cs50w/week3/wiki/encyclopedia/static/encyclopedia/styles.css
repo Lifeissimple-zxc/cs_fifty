@@ -36,3 +36,20 @@ textarea {
 .sidebar h2 {
     margin-top: 5px;
 }
+
+.page-center {
+    top: 40%;
+    left: 50%;
+    margin: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.error-box {
+    background-color: #E50914;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: center;
+    border: 2px solid #121212;
+    padding: 10px;
+}

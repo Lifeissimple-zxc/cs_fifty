@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<!-- TODO: add some CSS to highlight that it's an error -->
-<h1>{{ error_message }}</h1>
+    <div class="page-center error-box">
+        <h2>Unexpected Error: {{ error_message }}</h2>
+    </div>
 {% endblock %}

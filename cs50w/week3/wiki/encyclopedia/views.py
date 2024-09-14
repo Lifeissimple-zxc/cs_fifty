@@ -30,6 +30,7 @@ def title(request: HttpRequest, title: str):
     # convert markdown to html
     markdown = util.markdown_to_html(title=raw_title, markdown=markdown)
     # render info
+    # TODO configure logging and remove prints
     print("title pre rendering", title)
     return render(
         request=request,
