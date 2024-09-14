@@ -28,7 +28,7 @@ def title(request: HttpRequest, title: str):
             template_name="encyclopedia/error.html",
             context={
                 "title": raw_title,
-                "error_message": f"{raw_title} was not found"
+                "error_message": f"Title page for '{raw_title}' was not found"
             }
         )
 
