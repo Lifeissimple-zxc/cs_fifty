@@ -1,13 +1,14 @@
 import logging
+import random
 
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from . import util
+from . import util, cache
 
 
 logger = logging.getLogger('wiki')
-
+ERROR_TEMPLATE = "encyclopedia/error.html"
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -25,17 +26,24 @@ def title(request: HttpRequest, title: str):
     if markdown is None:
         return render(
             request=request,
-            template_name="encyclopedia/error.html",
+            template_name=ERROR_TEMPLATE,
             context={
                 "title": raw_title,
                 "error_message": f"Title page for '{raw_title}' was not found"
             }
         )
 
-    # convert markdown to html
     markdown = util.markdown_to_html(title=raw_title, markdown=markdown)
-    # render info
-    # TODO configure logging and remove prints
+    if markdown is None:
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": raw_title,
+                "error_message": "Unexpected server error, please try again."
+            }
+        )
+    
     logger.info("title pre rendering: %s", title)
     return render(
         request=request,
@@ -46,3 +54,7 @@ def title(request: HttpRequest, title: str):
         }
     )
 
+def random_page(request: HttpRequest):
+    return redirect(
+        to=f"wiki/{random.choice(seq=cache.entries_cache.get_entries())}"
+    )
