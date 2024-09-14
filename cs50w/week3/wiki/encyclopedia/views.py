@@ -1,7 +1,12 @@
+import logging
+
 from django.http import HttpRequest
 from django.shortcuts import render
 
 from . import util
+
+
+logger = logging.getLogger('wiki')
 
 
 def index(request):
@@ -14,7 +19,7 @@ def title(request: HttpRequest, title: str):
     # assumption: most titles are capitalised, all upper is a fall back scenario
     title = title.capitalize()
     if (markdown := util.get_entry(title=title)) is None:
-        print("capitalised search did not work")
+        logger.warning("capitalised search did not work")
         title = title.upper()
         markdown = util.get_entry(title=title)
     if markdown is None:
@@ -31,7 +36,7 @@ def title(request: HttpRequest, title: str):
     markdown = util.markdown_to_html(title=raw_title, markdown=markdown)
     # render info
     # TODO configure logging and remove prints
-    print("title pre rendering", title)
+    logger.info("title pre rendering: %s", title)
     return render(
         request=request,
         template_name="encyclopedia/title.html",

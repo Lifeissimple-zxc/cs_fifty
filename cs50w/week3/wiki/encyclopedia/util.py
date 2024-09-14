@@ -6,7 +6,7 @@ from django.core.files.storage import default_storage
 import markdown2
 
 
-logger = logging.getLogger('django.server')
+logger = logging.getLogger('wiki')
 
 def list_entries():
     """
