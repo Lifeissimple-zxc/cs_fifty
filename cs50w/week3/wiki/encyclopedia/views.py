@@ -54,7 +54,18 @@ def title(request: HttpRequest, title: str):
         }
     )
 
-def random_page(request: HttpRequest):
-    return redirect(
-        to=f"wiki/{random.choice(seq=cache.entries_cache.get_entries())}"
-    )
+def random_entry(request: HttpRequest):
+    return redirect(to=f"wiki/{cache.entries_cache.get_random_entry()}")
+
+def search_entry(request: HttpRequest):
+    if request.method != "POST":
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": "ERROR",
+                "error_message": f"Request error: {request.method} method is not supported"
+            }
+        )
+    # getting here means request has the right method
+    logger.info("POST request data: %s", request.POST)
