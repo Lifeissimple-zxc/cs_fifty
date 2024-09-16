@@ -1,5 +1,4 @@
 import logging
-import random
 
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -68,4 +67,19 @@ def search_entry(request: HttpRequest):
             }
         )
     # getting here means request has the right method
-    logger.info("POST request data: %s", request.POST)
+    q = request.POST["q"]
+    if cache.entries_cache.has_entry(query=q):
+        return redirect(to=f"wiki/{q}")
+    
+    # no full match was located so we try a partial one
+    results = cache.entries_cache.find_entries(query=q)
+    # render search page
+    return render(
+        request=request,
+        template_name="encyclopedia/search.html",
+        context={
+            "query": q,
+            "entries": results
+        }
+    )
+    

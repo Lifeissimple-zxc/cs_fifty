@@ -3,7 +3,7 @@ import logging
 import time
 import random
 from typing import Callable
-import functools
+import re
 
 from . import util
 
@@ -12,7 +12,6 @@ logger = logging.getLogger("wiki")
 
 
 def cache_check(method: Callable):
-    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         # update cache on first call to any of the getters
         if self.last_called is None:
@@ -49,9 +48,18 @@ class EntriesCache:
         return random.choice(self.__og_entries)
     
     @cache_check
-    def search_entry(self, query: str) -> bool:
+    def has_entry(self, query: str) -> bool:
         return query.lower() in self.search_entries
-
+    
+    @cache_check
+    def find_entries(self, query: str) -> list:
+        # TODO make sure it works for words with spaces! Do that after new page is implemented
+        results = []
+        for e in self.__og_entries:
+            logger.info("checking %s", e)
+            if re.search(pattern=query.lower(), string=e.lower(), flags=re.IGNORECASE):
+                results.append(e)
+        return results
 
 
 
