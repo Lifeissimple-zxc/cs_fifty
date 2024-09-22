@@ -73,6 +73,15 @@ def search_entry(request: HttpRequest):
     
     # no full match was located so we try a partial one
     results = cache.entries_cache.find_entries(query=q)
+    if not results:
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": f"Search: {q}",
+                "error_message": f"No search results for \"{q}\"."
+            }
+        )
     # render search page
     return render(
         request=request,
