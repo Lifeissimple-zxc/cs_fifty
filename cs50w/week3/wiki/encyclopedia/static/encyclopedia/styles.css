@@ -81,12 +81,11 @@ textarea {
     border-radius: 8px;
     background-color: #f0f0f0;
     width: 13%;
-    border: 1px solid white;
+    border: 1px solid black;
 }
 
 .title-update-form-submit:hover {
     background-color: white;
-    border: 1px solid black;
 }
 
 center {

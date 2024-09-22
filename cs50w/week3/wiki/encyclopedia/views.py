@@ -1,6 +1,6 @@
 import logging
 
-from django.http import HttpRequest
+from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 
 from . import util, cache
@@ -8,6 +8,7 @@ from . import util, cache
 
 logger = logging.getLogger('wiki')
 ERROR_TEMPLATE = "encyclopedia/error.html"
+ERROR_TITLE = "Error"
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -32,7 +33,7 @@ def title(request: HttpRequest, title: str):
             }
         )
 
-    markdown = util.markdown_to_html(title=raw_title, markdown=markdown)
+    markdown = util.string_to_markdown(title=raw_title, markdown=markdown)
     if markdown is None:
         return render(
             request=request,
@@ -62,7 +63,7 @@ def search_entry(request: HttpRequest):
             request=request,
             template_name=ERROR_TEMPLATE,
             context={
-                "title": "ERROR",
+                "title": ERROR_TITLE,
                 "error_message": f"Request error: {request.method} method is not supported"
             }
         )
@@ -96,6 +97,70 @@ def _get_new_entry_form(request: HttpRequest):
     return render(request=request,
                   template_name="encyclopedia/new_title.html")
 
+def _post_new_entry_form(request: HttpRequest):
+    try:
+        title_name = request.POST["title_name"]
+        title_content = request.POST["title_content"]
+    except KeyError as e:
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": ERROR_TITLE,
+                "error_message": f"Request is missing data: {e}"
+            }
+        )
+    
+    if cache.entries_cache.has_entry(query=title_name):
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": ERROR_TITLE,
+                "error_message": f"\"{title_name}\" is an already existing title."
+            }
+        )
+    
+    # getting here means a new entry is being added
+    md = util.string_to_markdown(title=title_name, markdown=title_content)
+    if md is None:
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": ERROR_TITLE,
+                "error_message": "Title content is not a valid piece of Markdown. Try Again."
+            }
+        )
+    
+    # at this point we know markdown is valid
+    try:
+        util.save_entry(title=title_name, content=title_content)
+    except Exception as e:
+        logger.error("error saving new title: %s", e, exc_info=True)
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": ERROR_TITLE,
+                "error_message": "Unexpected server error while saving content. Try Again"
+            }
+        )
+    
+    # getting here means the title was saved ok so we can redirect its author there
+    return redirect(to=f"wiki/{title_name}")
+
 def new_entry(request: HttpRequest):
     if request.method == "GET":
         return _get_new_entry_form(request=request)
+    elif request.method == "POST":
+        return _post_new_entry_form(request=request)
+    else:
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": ERROR_TITLE,
+                "error_message": f"Request error: {request.method} method is not supported"
+            }
+        )

@@ -40,7 +40,7 @@ def get_entry(title):
     except FileNotFoundError:
         return None
     
-def markdown_to_html(title:str, markdown: str) -> markdown2.UnicodeWithAttrs:
+def string_to_markdown(title:str, markdown: str) -> markdown2.UnicodeWithAttrs:
     try:
         return markdown2.markdown(text=markdown)
     except Exception as e:
