@@ -1,7 +1,8 @@
 import logging
 
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
+from django import forms
 
 from . import util, cache
 
@@ -92,37 +93,52 @@ def search_entry(request: HttpRequest):
             "entries": results
         }
     )
+
+
     
 def _get_new_entry_form(request: HttpRequest):
     return render(request=request,
                   template_name="encyclopedia/new_title.html")
 
+
+class NewTitleForm(forms.Form):
+    title_name = forms.CharField(
+        min_length=1,
+        max_length=100,
+        required=True,
+        strip=True
+    )
+    title_content = forms.CharField(
+        min_length=1,
+        required=True,
+        strip=True
+    )
+
+
 def _post_new_entry_form(request: HttpRequest):
-    try:
-        title_name = request.POST["title_name"]
-        title_content = request.POST["title_content"]
-    except KeyError as e:
+    data = NewTitleForm(request.POST)
+    if not data.is_valid():
         return render(
             request=request,
             template_name=ERROR_TEMPLATE,
             context={
                 "title": ERROR_TITLE,
-                "error_message": f"Request is missing data: {e}"
+                "error_message": f"Request is missing data: {data.errors.as_text()}"
             }
         )
     
-    if cache.entries_cache.has_entry(query=title_name):
+    if cache.entries_cache.has_entry(query=data.title_name):
         return render(
             request=request,
             template_name=ERROR_TEMPLATE,
             context={
                 "title": ERROR_TITLE,
-                "error_message": f"\"{title_name}\" is an already existing title."
+                "error_message": f"\"{data.title_name}\" is an already existing title."
             }
         )
     
     # getting here means a new entry is being added
-    md = util.string_to_markdown(title=title_name, markdown=title_content)
+    md = util.string_to_markdown(title=data.title_name, markdown=data.title_content)
     if md is None:
         return render(
             request=request,
@@ -135,7 +151,7 @@ def _post_new_entry_form(request: HttpRequest):
     
     # at this point we know markdown is valid
     try:
-        util.save_entry(title=title_name, content=title_content)
+        util.save_entry(title=data.title_name, content=data.title_content)
     except Exception as e:
         logger.error("error saving new title: %s", e, exc_info=True)
         return render(
@@ -148,7 +164,7 @@ def _post_new_entry_form(request: HttpRequest):
         )
     
     # getting here means the title was saved ok so we can redirect its author there
-    return redirect(to=f"wiki/{title_name}")
+    return redirect(to=f"wiki/{data.title_name}")
 
 def new_entry(request: HttpRequest):
     if request.method == "GET":
