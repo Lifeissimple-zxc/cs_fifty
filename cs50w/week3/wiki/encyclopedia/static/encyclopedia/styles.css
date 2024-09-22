@@ -13,8 +13,7 @@ h1 {
 }
 
 textarea {
-    height: 90vh;
-    width: 80%;
+    height: 40vh;
 }
 
 .main {
@@ -52,4 +51,46 @@ textarea {
     vertical-align: center;
     border: 2px solid #121212;
     padding: 10px;
+}
+
+.update-title-form {
+    margin: 10px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+}
+
+.title-update-box {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.form-disclaimer {
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.title-update-form-text-input {
+    width: 100%;
+    padding: 7px;
+}
+
+.title-update-form-submit {
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    width: 13%;
+    border: 1px solid white;
+}
+
+.title-update-form-submit:hover {
+    background-color: white;
+    border: 1px solid black;
+}
+
+center {
+    display: block;
+    text-align: -webkit-center;
+    unicode-bidi: isolate;
 }

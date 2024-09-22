@@ -5,16 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<form method="POST">
+<form method="POST" class="update-title-form">
     {% csrf_token %}
-    <div>Title Name:</div>
-    <input type="text" name="title_name" placeholder="My Cool Title">
-    <div>Title Content:</div>
-    
-    <input type="text" name="title_content" placeholder="My Cool Title">
-    <div>
-        *small text*: information on your title. Needs to be written in Markdown. Syntax Help. 
+
+    <div class="title-update-box">
+        <div><h4>Title Name</h4></div>
+        <div class="form-disclaimer">Name of your title. 100 characters maximum.</div>
+        <input type="text" name="title_name" id="title_name" placeholder="My Cool Title"
+                class="title-update-form-text-input" maxlength="100" required autofocus>
     </div>
-    <input type="submit" value="Add Title">
+    
+    <div class="title-update-box">
+        <div><h4>Title Content</h4></div>
+        <div class="form-disclaimer">
+            Information on your title. Needs to be written in <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">Markdown</a>. 
+        </div>
+        <textarea name="title_content" placeholder="My Cool Title Info" class="title-update-form-text-input"></textarea>
+    </div>
+
+    <center>
+        <input type="submit" value="Add Title" class="title-update-form-submit">
+    </center>
+    
 </form>
 {% endblock %}
