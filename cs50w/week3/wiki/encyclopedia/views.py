@@ -92,3 +92,10 @@ def search_entry(request: HttpRequest):
         }
     )
     
+def _get_new_entry_form(request: HttpRequest):
+    return render(request=request,
+                  template_name="encyclopedia/new_title.html")
+
+def new_entry(request: HttpRequest):
+    if request.method == "GET":
+        return _get_new_entry_form(request=request)
