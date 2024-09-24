@@ -26,6 +26,16 @@ def _render_title_not_found_error(request: HttpRequest, title: str):
         }
     )
 
+def _render_method_not_allowed_error(request: HttpRequest):
+    return render(
+        request=request,
+        template_name=ERROR_TEMPLATE,
+        context={
+            "title": ERROR_TITLE,
+            "error_message": f"Request error: {request.method} method is not supported for {request.path}"
+        }
+    )
+
 def title(request: HttpRequest, title: str):
     if (markdown := util.fetch_entry(title=title)) is None:
         return _render_title_not_found_error(request=request, title=title)
@@ -55,14 +65,7 @@ def random_entry(request: HttpRequest):
 
 def search_entry(request: HttpRequest):
     if request.method != "POST":
-        return render(
-            request=request,
-            template_name=ERROR_TEMPLATE,
-            context={
-                "title": ERROR_TITLE,
-                "error_message": f"Request error: {request.method} method is not supported"
-            }
-        )
+        return _render_method_not_allowed_error(request=request)
     # getting here means request has the right method
     q = request.POST["q"]
     if cache.entries_cache.has_entry(query=q):
@@ -167,14 +170,7 @@ def new_entry(request: HttpRequest):
     elif request.method == "POST":
         return _post_new_entry_form(request=request)
     else:
-        return render(
-            request=request,
-            template_name=ERROR_TEMPLATE,
-            context={
-                "title": ERROR_TITLE,
-                "error_message": f"Request error: {request.method} method is not supported"
-            }
-        )
+        return _render_method_not_allowed_error(request=request)
 
 def _get_update_entry_page(request: HttpRequest, title: str):
     logger.info("update reuqest title: %s", title)
@@ -191,16 +187,9 @@ def _get_update_entry_page(request: HttpRequest, title: str):
 
 def update_entry(request: HttpRequest, title: str):
     if request.method == "GET":
+        logger.info("update path: %s", request.path)
         return _get_update_entry_page(request=request, title=title)
     # elif request.method == "POST":
     #     return
     else:
-        
-        return render(
-            request=request,
-            template_name=ERROR_TEMPLATE,
-            context={
-                "title": ERROR_TITLE,
-                "error_message": f"Request error: {request.method} is not supported for {request.path}"
-            }
-        )
+        return _render_method_not_allowed_error(request=request)
