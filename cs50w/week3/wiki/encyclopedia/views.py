@@ -16,31 +16,26 @@ def index(request):
         "entries": util.list_entries()
     })
 
-def title(request: HttpRequest, title: str):
-    raw_title = title
-    # assumption: most titles are capitalised, all upper is a fall back scenario
-    title = title.capitalize()
-    if (markdown := util.get_entry(title=title)) is None:
-        logger.warning("capitalised search did not work")
-        title = title.upper()
-        markdown = util.get_entry(title=title)
-    if markdown is None:
-        return render(
-            request=request,
-            template_name=ERROR_TEMPLATE,
-            context={
-                "title": raw_title,
-                "error_message": f"Title page for '{raw_title}' was not found"
-            }
-        )
+def _render_title_not_found_error(request: HttpRequest, title: str):
+    return render(
+        request=request,
+        template_name=ERROR_TEMPLATE,
+        content_type={
+            "title": title,
+            "error_message": f"Title page for '{title}' was not found" 
+        }
+    )
 
-    markdown = util.string_to_markdown(title=raw_title, markdown=markdown)
+def title(request: HttpRequest, title: str):
+    if (markdown := util.fetch_entry(title=title)) is None:
+        return _render_title_not_found_error(request=request, title=title)
+    markdown = util.string_to_markdown(title=title, markdown=markdown)
     if markdown is None:
         return render(
             request=request,
             template_name=ERROR_TEMPLATE,
             context={
-                "title": raw_title,
+                "title": title,
                 "error_message": "Unexpected server error, please try again."
             }
         )
@@ -50,7 +45,7 @@ def title(request: HttpRequest, title: str):
         request=request,
         template_name="encyclopedia/title.html",
         context={
-            "title": title.upper(),
+            "title": title,
             "markdown": markdown
         }
     )
@@ -178,5 +173,34 @@ def new_entry(request: HttpRequest):
             context={
                 "title": ERROR_TITLE,
                 "error_message": f"Request error: {request.method} method is not supported"
+            }
+        )
+
+def _get_update_entry_page(request: HttpRequest, title: str):
+    logger.info("update reuqest title: %s", title)
+    if (markdown := util.fetch_entry(title=title)) is None:
+        return _render_title_not_found_error(request=request, title=title)
+    return render(
+        request=request,
+        template_name="encyclopedia/edit_title.html",
+        context={
+            "title": title,
+            "markdown": markdown
+        }
+    )
+
+def update_entry(request: HttpRequest, title: str):
+    if request.method == "GET":
+        return _get_update_entry_page(request=request, title=title)
+    # elif request.method == "POST":
+    #     return
+    else:
+        
+        return render(
+            request=request,
+            template_name=ERROR_TEMPLATE,
+            context={
+                "title": ERROR_TITLE,
+                "error_message": f"Request error: {request.method} is not supported for {request.path}"
             }
         )

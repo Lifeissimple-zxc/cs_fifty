@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block body %}
-    <div>
-        {{ markdown | safe }}
+    <div class="title-section">
+        <div style>
+            {{ markdown | safe }}
+        </div>
+        <div>
+            <form method="GET" action="update/{{ title }}">
+                <input type="submit" value="Edit Title" class="title-update-form-submit" style="width: 8%;">
+            </form>
+        </div>
     </div>
 {% endblock %}

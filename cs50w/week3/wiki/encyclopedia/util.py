@@ -40,6 +40,18 @@ def get_entry(title):
     except FileNotFoundError:
         return None
     
+def fetch_entry(title: str):
+    """Wrapper around get_entry that enables case agnostic searches
+
+    Args:
+        title (str): title to search
+    """
+    # assumption: most titles are capitalised, all upper is a fall back scenario
+    if (markdown := get_entry(title=title.capitalize())) is not None:
+        return markdown
+    logger.warning("capitalised search did not work")
+    return get_entry(title=title.upper())
+    
 def string_to_markdown(title:str, markdown: str) -> markdown2.UnicodeWithAttrs:
     try:
         return markdown2.markdown(text=markdown)

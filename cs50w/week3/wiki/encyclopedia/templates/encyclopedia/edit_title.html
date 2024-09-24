@@ -1,0 +1,28 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Update Entry: {{ title }}
+{% endblock %}
+
+{% block body %}
+<form method="POST" class="update-title-form">
+    {% csrf_token %}
+
+    <div class="title-update-box">
+        <div><h3>{{ title }}</h3></div>
+    </div>
+    
+    <div class="title-update-box">
+        <div><h4>Title Content</h4></div>
+        <div class="form-disclaimer">
+            Information on your title. Needs to be written in <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">Markdown</a>. 
+        </div>
+        <textarea name="title_content" class="title-update-form-text-input">{{ markdown | safe }}</textarea>
+    </div>
+
+    <center>
+        <input type="submit" value="Save Changes" class="title-update-form-submit">
+    </center>
+    
+</form>
+{% endblock %}
