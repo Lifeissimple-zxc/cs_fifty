@@ -113,8 +113,10 @@ class NewTitleForm(forms.Form):
     )
 
 
-def _post_new_entry_form(request: HttpRequest):
+def _post_entry_change_form(request: HttpRequest, check_if_exists=True):
+    logger.info("POST DATA: %s", request.POST)
     data = NewTitleForm(request.POST)
+    logger.info("Form object: %s", data)
     if not data.is_valid():
         return render(
             request=request,
@@ -124,19 +126,23 @@ def _post_new_entry_form(request: HttpRequest):
                 "error_message": f"Request is missing data: {data.errors.as_text()}"
             }
         )
-    
-    if cache.entries_cache.has_entry(query=data.title_name):
+    title_name = data.cleaned_data["title_name"]
+    title_content = data.cleaned_data["title_content"]
+    if check_if_exists and cache.entries_cache.has_entry(query=title_name):
         return render(
             request=request,
             template_name=ERROR_TEMPLATE,
             context={
                 "title": ERROR_TITLE,
-                "error_message": f"\"{data.title_name}\" is an already existing title."
+                "error_message": f"\"{title_name}\" is an already existing title."
             }
         )
     
     # getting here means a new entry is being added
-    md = util.string_to_markdown(title=data.title_name, markdown=data.title_content)
+    md = util.string_to_markdown(
+        title=title_name,
+        markdown=title_content
+    )
     if md is None:
         return render(
             request=request,
@@ -149,7 +155,7 @@ def _post_new_entry_form(request: HttpRequest):
     
     # at this point we know markdown is valid
     try:
-        util.save_entry(title=data.title_name, content=data.title_content)
+        util.save_entry(title=title_name, content=title_content)
     except Exception as e:
         logger.error("error saving new title: %s", e, exc_info=True)
         return render(
@@ -160,15 +166,15 @@ def _post_new_entry_form(request: HttpRequest):
                 "error_message": "Unexpected server error while saving content. Try Again"
             }
         )
-    
     # getting here means the title was saved ok so we can redirect its author there
-    return redirect(to=f"wiki/{data.title_name}")
+    logger.info("title name: %s", title_name)
+    return redirect(to=f"wiki/{title_name}")
 
 def new_entry(request: HttpRequest):
     if request.method == "GET":
         return _get_new_entry_form(request=request)
     elif request.method == "POST":
-        return _post_new_entry_form(request=request)
+        return _post_entry_change_form(request=request)
     else:
         return _render_method_not_allowed_error(request=request)
 
@@ -187,9 +193,8 @@ def _get_update_entry_page(request: HttpRequest, title: str):
 
 def update_entry(request: HttpRequest, title: str):
     if request.method == "GET":
-        logger.info("update path: %s", request.path)
         return _get_update_entry_page(request=request, title=title)
-    # elif request.method == "POST":
-    #     return
+    elif request.method == "POST":
+        return _post_entry_change_form(request=request, check_if_exists=False)
     else:
         return _render_method_not_allowed_error(request=request)
