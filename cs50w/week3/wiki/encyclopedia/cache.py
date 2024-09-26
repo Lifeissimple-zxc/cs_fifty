@@ -26,7 +26,7 @@ def cache_check(method: Callable):
 
 class EntriesCache:
     def __init__(self, entries: list, last_called=0,
-                 cache_ttl_seconds=300):
+                 cache_ttl_seconds=20):
         self.__og_entries = entries
         self.search_entries = set(entries)
         self.last_called = last_called
