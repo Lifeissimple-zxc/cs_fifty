@@ -20,9 +20,9 @@ def _render_title_not_found_error(request: HttpRequest, title: str):
     return render(
         request=request,
         template_name=ERROR_TEMPLATE,
-        content_type={
+        context={
             "title": title,
-            "error_message": f"Title page for '{title}' was not found" 
+            "error_message": f"Title page for \"{title}\" was not found" 
         }
     )
 
@@ -112,7 +112,6 @@ class NewTitleForm(forms.Form):
 
     def clean(self) -> dict:
         cleaned_data = super().clean()
-        # cleaned_data["title_name"] = cleaned_data["title_name"].strip()
         title_content = cleaned_data["title_content"].strip()
         title_content = '\n'.join([line.strip() for line in title_content.splitlines()])
         cleaned_data["title_content"] = title_content
