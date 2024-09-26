@@ -50,7 +50,6 @@ def title(request: HttpRequest, title: str):
             }
         )
     
-    logger.info("title pre rendering: %s", title)
     return render(
         request=request,
         template_name="encyclopedia/title.html",
@@ -111,11 +110,17 @@ class NewTitleForm(forms.Form):
         strip=True
     )
 
+    def clean(self) -> dict:
+        cleaned_data = super().clean()
+        # cleaned_data["title_name"] = cleaned_data["title_name"].strip()
+        title_content = cleaned_data["title_content"].strip()
+        title_content = '\n'.join([line.strip() for line in title_content.splitlines()])
+        cleaned_data["title_content"] = title_content
+        return cleaned_data
+
 
 def _post_entry_change_form(request: HttpRequest, check_if_exists=True):
-    logger.info("POST DATA: %s", request.POST)
     data = NewTitleForm(request.POST)
-    logger.info("Form object: %s", data)
     if not data.is_valid():
         return render(
             request=request,
@@ -126,7 +131,7 @@ def _post_entry_change_form(request: HttpRequest, check_if_exists=True):
             }
         )
     title_name = data.cleaned_data["title_name"]
-    title_content = data.cleaned_data["title_content"].strip()
+    title_content = data.cleaned_data["title_content"]
     if check_if_exists and cache.entries_cache.has_entry(query=title_name):
         return render(
             request=request,
@@ -166,7 +171,6 @@ def _post_entry_change_form(request: HttpRequest, check_if_exists=True):
             }
         )
     # getting here means the title was saved ok so we can redirect its author there
-    logger.info("title name: %s", title_name)
     return redirect(to="title", title=title_name)
 
 def new_entry(request: HttpRequest):
@@ -178,7 +182,6 @@ def new_entry(request: HttpRequest):
         return _render_method_not_allowed_error(request=request)
 
 def _get_update_entry_page(request: HttpRequest, title: str):
-    logger.info("update reuqest title: %s", title)
     if (markdown := util.fetch_entry(title=title)) is None:
         return _render_title_not_found_error(request=request, title=title)
     return render(
