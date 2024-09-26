@@ -61,7 +61,7 @@ def title(request: HttpRequest, title: str):
     )
 
 def random_entry(request: HttpRequest):
-    return redirect(to=f"wiki/{cache.entries_cache.get_random_entry()}")
+    return redirect(to="title", title=cache.entries_cache.get_random_entry())
 
 def search_entry(request: HttpRequest):
     if request.method != "POST":
@@ -69,7 +69,7 @@ def search_entry(request: HttpRequest):
     # getting here means request has the right method
     q = request.POST["q"]
     if cache.entries_cache.has_entry(query=q):
-        return redirect(to=f"wiki/{q}")
+        return redirect(to="title", title=q)
     
     # no full match was located so we try a partial one
     results = cache.entries_cache.find_entries(query=q)
@@ -95,8 +95,7 @@ def search_entry(request: HttpRequest):
 
     
 def _get_new_entry_form(request: HttpRequest):
-    return render(request=request,
-                  template_name="encyclopedia/new_title.html")
+    return render(request=request, template_name="encyclopedia/new_title.html")
 
 
 class NewTitleForm(forms.Form):
@@ -127,7 +126,7 @@ def _post_entry_change_form(request: HttpRequest, check_if_exists=True):
             }
         )
     title_name = data.cleaned_data["title_name"]
-    title_content = data.cleaned_data["title_content"]
+    title_content = data.cleaned_data["title_content"].strip()
     if check_if_exists and cache.entries_cache.has_entry(query=title_name):
         return render(
             request=request,
@@ -168,7 +167,7 @@ def _post_entry_change_form(request: HttpRequest, check_if_exists=True):
         )
     # getting here means the title was saved ok so we can redirect its author there
     logger.info("title name: %s", title_name)
-    return redirect(to=f"wiki/{title_name}")
+    return redirect(to="title", title=title_name)
 
 def new_entry(request: HttpRequest):
     if request.method == "GET":
