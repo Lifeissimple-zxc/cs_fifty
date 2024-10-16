@@ -1,0 +1,11 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h1>I am a form for posting new listings to the backlend</h1>
+<ul>
+    {% for c in categories %}
+    <li>{{ c.title | capfirst }}</li>
+    {% endfor %}
+</ul>
+TODO
+{% endblock %}

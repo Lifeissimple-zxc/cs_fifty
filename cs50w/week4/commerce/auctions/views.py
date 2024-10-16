@@ -1,10 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import ListingCategory, User
 
 
 def index(request):
@@ -61,3 +61,16 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+    
+def _render_new_listing_page(request: HttpRequest):
+    return render(
+        request=request,
+        template_name="auctions/new_listing.html",
+        context={
+            "categories": ListingCategory.objects.all()
+        }
+    )
+
+def new_listing(request: HttpRequest):
+    if request.method == "GET":
+        return _render_new_listing_page(request=request)

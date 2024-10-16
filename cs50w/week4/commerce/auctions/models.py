@@ -19,10 +19,14 @@ class User(AbstractUser):
 class ListingCategory(models.Model):
     "An auction listing category"
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=TITLE_CHAR_LIMIT)
+    title = models.CharField(max_length=TITLE_CHAR_LIMIT, unique=True)
 
     def __str__(self):
         return f"{self.title} category"
+    
+    def save(self, *args, **kwargs):
+        self.title = self.title.lower()
+        super().save(*args, **kwargs)
 
 
 # listing statuses
