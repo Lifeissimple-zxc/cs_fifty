@@ -5,7 +5,8 @@ from django.db import models
 # misc
 TITLE_CHAR_LIMIT = 228
 LISTING_DESC_CHAR_LIMIT = 2000
-IMAGE_URL_CHAR_LIMIT = 1000
+LISTING_IMAGE_URL_CHAR_LIMIT = 1000
+LISTING_STATUS_CHAR_LIMIT = 20
 
 # Field names
 LISTINGS_RELATED_NAME = "listings"
@@ -37,10 +38,10 @@ class Listing(models.Model):
     "An auction listing"
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=TITLE_CHAR_LIMIT)
-    description = models.CharField(max_length=LISTING_DESC_CHAR_LIMIT)
     starting_bid = models.FloatField()
-    image_url = models.CharField(max_length=IMAGE_URL_CHAR_LIMIT)
-    status = models.CharField(max_length=20)
+    description = models.CharField(max_length=LISTING_DESC_CHAR_LIMIT)
+    image_url = models.CharField(max_length=LISTING_IMAGE_URL_CHAR_LIMIT)
+    status = models.CharField(max_length=LISTING_STATUS_CHAR_LIMIT)
     # FKs
     category = models.ForeignKey(to=ListingCategory, on_delete=models.CASCADE, related_name=LISTINGS_RELATED_NAME)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name=USER_RELATED_NAME)
@@ -50,5 +51,8 @@ class Listing(models.Model):
 
 
 
-
+# TODO update the form's styling
+# TODO update the site's styling overall
+# TODO add an error page
+# TODO add error handling on a model save
 

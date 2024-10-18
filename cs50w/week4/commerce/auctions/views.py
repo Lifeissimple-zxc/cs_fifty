@@ -1,10 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import ListingCategory, User
+from . import models, forms
 
 
 def index(request):
@@ -51,7 +51,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = models.User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
@@ -62,15 +62,38 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
     
+def render_error(request: HttpRequest):
+    return render(
+        request=request,
+        template_name="auctions/error.html"
+    )
+
 def _render_new_listing_page(request: HttpRequest):
     return render(
         request=request,
         template_name="auctions/new_listing.html",
         context={
-            "categories": ListingCategory.objects.all()
+            "form": forms.NewListingForm()
         }
     )
 
+def _post_new_listing(request: HttpRequest):
+    form = forms.NewListingForm(request.POST)
+    if not form.is_valid():
+        return render_error(request=request)
+    listing = form.save(commit=False)
+    listing.user = request.user
+    listing.status = models.LISTING_STATUS_ACTIVE
+    listing.save() # TODO error handling
+    return redirect(to="index")
+    
+
+
 def new_listing(request: HttpRequest):
+    if not request.user.is_authenticated:
+        return render_error(request=request)
+    
     if request.method == "GET":
         return _render_new_listing_page(request=request)
+    elif request.method == "POST":
+        return _post_new_listing(request=request)

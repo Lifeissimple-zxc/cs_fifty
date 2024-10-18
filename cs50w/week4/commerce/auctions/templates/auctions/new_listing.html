@@ -1,11 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<h1>I am a form for posting new listings to the backlend</h1>
-<ul>
-    {% for c in categories %}
-    <li>{{ c.title | capfirst }}</li>
-    {% endfor %}
-</ul>
-TODO
+<h2>New Listing</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div>title* {{ form.title }}</div>
+    <div>starting bid* {{ form.starting_bid }}</div>
+    <div>description* {{ form.description }}</div>
+    <div>image url {{ form.image_url }}</div>
+    <div>cateogry {{ form.category }}</div>
+    <div><input type="submit"></div>
+</form>
 {% endblock %}
