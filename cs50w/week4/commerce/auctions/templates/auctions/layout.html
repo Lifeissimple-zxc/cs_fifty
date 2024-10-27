@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <title>{% block title %}Auctions{% endblock %}</title>
     <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
@@ -17,6 +16,8 @@
                     Hello, <strong>{{ user.username }}</strong>!
                 </li>
             {% endif %}
+        </ul>
+        <ul style="margin-left: 50%;">
             <li class="nav-item"><a href="{% url 'index' %}">Active Listings</a></li>
             {% if user.is_authenticated %}
                 <li class="nav-item"><a href="{% url 'new_listing'%}">Add a New Listing</a></li>
