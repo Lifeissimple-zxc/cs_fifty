@@ -1,3 +1,50 @@
-body {
-    padding: 10px;
+.navbar {
+    background-color: #623cae;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.navbar li { 
+    display: block;
+    text-align: center;
+    font-family: "Comic Sans MS", sans-serif;
+    float: left;
+    padding: 15px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background-color: #250465;
+}
+
+.font-trebuchet {
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+.font-verdana {
+    font-family: "Verdana", sans-serif;
+}
+
+.font-comic {
+    font-family: "Comic Sans MS", sans-serif;
+}
+
+.font-cabin {
+    font-family: "Cabin", sans-serif;
+}
+
+.font-nunito {
+    font-family: "Nunito", sans-serif;
 }
